@@ -1,0 +1,13 @@
+# Rebuild:
+#   singularity build -f -F fedora.30.sif fedora.30.def
+
+Bootstrap: docker
+From: fedora:30
+
+%post
+    dnf -y update
+    dnf -y groupinstall "C Development Tools and Libraries"
+    dnf -y install gcc-gfortran wget curl which git xz patch procps unzip
+    # Things for our testing system:
+    dnf -y install cmake hostname redhat-lsb-core
+    dnf -y clean all
