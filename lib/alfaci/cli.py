@@ -2,6 +2,14 @@
 
 import argcomplete
 import argparse
+import sys
+
+
+class ArgumentParser(argparse.ArgumentParser):
+
+    def error(self, message):
+        self.print_help(sys.stderr)
+        self.exit(2, '%s: error: %s\n' % (self.prog, message))
 
 
 def print_shell_setup(args):
@@ -20,7 +28,7 @@ def print_version(args):
 
 def main():
     """Main entry function called from the CLI"""
-    parser = argparse.ArgumentParser(
+    parser = ArgumentParser(
         description='Manage alfa-ci environments.')
     subparsers = parser.add_subparsers(title='COMMANDS')
 
@@ -39,4 +47,11 @@ def main():
     argcomplete.autocomplete(parser)
     args = parser.parse_args()
 
-    args.func(args) if hasattr(args, 'func') else parser.print_help()
+    if hasattr(args, 'func'):
+        args.func(args)
+    else:
+        parser.print_help()
+        exit(2)
+
+if __name__ == "__main__":
+    main()
