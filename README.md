@@ -20,6 +20,14 @@ alfa-ci -h
 
 ## run unit tests
 
+quick
 ```bash
-python -m unittest
+pip install --user pytest
+pytest
+```
+
+exhaustive
+```bash
+pip install --user tox
+tox
 ```

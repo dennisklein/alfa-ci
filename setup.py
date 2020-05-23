@@ -24,7 +24,7 @@ setup(
         'Programming Language :: Python :: 3',
         'License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)',
     ],
-    python_requires='>=3.6',
+    python_requires='>=3.7',
     setup_requires=['wheel'],
     install_requires=['argcomplete'],
     entry_points={
