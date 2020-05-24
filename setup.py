@@ -26,6 +26,7 @@ setup(
     ],
     python_requires='>=3.7',
     setup_requires=['wheel'],
+    test_requires=['pytest', 'coverage', 'cli-test-helpers'],
     install_requires=['argcomplete'],
     entry_points={
         'console_scripts': [

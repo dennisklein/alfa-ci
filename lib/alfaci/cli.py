@@ -49,9 +49,10 @@ def main():
 
     if hasattr(args, 'func'):
         args.func(args)
+        exit(0)
     else:
         parser.print_help()
         exit(2)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
