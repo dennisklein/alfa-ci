@@ -8,7 +8,7 @@ from pathlib import Path
 import argcomplete
 
 from alfaci.version import PKG_VERSION
-from alfaci.repo import init_repo
+from alfaci.repo import init_repo, Repo
 
 
 class ArgumentParser(argparse.ArgumentParser):
@@ -18,7 +18,7 @@ class ArgumentParser(argparse.ArgumentParser):
         self.exit(2, '%s: error: %s\n' % (self.prog, message))
 
 
-def print_shell_setup(_args):
+def do_shell_setup(_args):
     """Print the argcomplete bash hook to be eval'ed by the user"""
     print(
         subprocess.run(['register-python-argcomplete', 'alfa-ci'],
@@ -26,15 +26,22 @@ def print_shell_setup(_args):
                        check=True).stdout.decode('UTF-8'))
 
 
-def print_version(_args):
+def do_version(_args):
     """Print the package version defined in the setup.py metadata"""
     print(PKG_VERSION)
 
 
-def init(_args):
+def do_init(_args):
     """Initialize the current working directory as environment repo"""
     repo = init_repo(Path.cwd())
     print('Initialized empty alfa-ci repository in %s' % repo.location)
+
+
+def do_list(_args):
+    """Print the list of installed environments"""
+    repo = Repo(Path.cwd())
+    for env in repo.environments:
+        print(env)
 
 
 def main():
@@ -47,17 +54,22 @@ def main():
         add_help=False,
         help='run \'eval "$(alfa-ci shell-setup)"\' to enable shell completion'
         ', e.g. from your ~/.bashrc')
-    shell_setup_parser.set_defaults(func=print_shell_setup)
+    shell_setup_parser.set_defaults(func=do_shell_setup)
 
     version_parser = subparsers.add_parser('version',
                                            add_help=False,
                                            help='show version number and exit')
-    version_parser.set_defaults(func=print_version)
+    version_parser.set_defaults(func=do_version)
 
     init_parser = subparsers.add_parser('init',
                                         add_help=False,
                                         help='initialize environment repo')
-    init_parser.set_defaults(func=init)
+    init_parser.set_defaults(func=do_init)
+
+    list_parser = subparsers.add_parser('list',
+                                        add_help=False,
+                                        help='list installed environments')
+    list_parser.set_defaults(func=do_list)
 
     argcomplete.autocomplete(parser)
     args = parser.parse_args()

@@ -6,9 +6,18 @@ import yaml
 
 class Error(Exception):
     """Basic repo error"""
-    def __init__(self, message):
-        super().__init__(self)
-        self.message = message
+
+
+class NotInitializedError(Error):
+    """Repo is not initialized"""
+    def __init__(self):
+        super().__init__('Repo is not initialized')
+
+
+class AlreadyExistsError(Error):
+    """Repo already exists"""
+    def __init__(self, location):
+        super().__init__('Repository already exists in %s' % location)
 
 
 class Repo:
@@ -25,19 +34,26 @@ class Repo:
 
         if not (self.location.exists() or
                 (self.location / Repo.config_file).exists()):
-            raise Error('Repository is not initialized')
+            raise NotInitializedError()
 
         with (self.location / Repo.config_file).open() as file:
             yaml.full_load(file)
 
+        self._environments = []
+
     @property
     def location(self):
-        """location getter"""
+        """getter"""
         return self._location
+
+    @property
+    def environments(self):
+        """getter"""
+        return self._environments
 
 
 def init_repo(path):
-    """Initializes a new repo in the given path and
+    """Initializes an empty repo in the given path and
        returns a Repo object for it"""
 
     if not isinstance(path, Path):
@@ -45,8 +61,8 @@ def init_repo(path):
 
     try:
         repo = Repo(path)
-        raise Error('Repository already exists in %s' % repo.location)
-    except Error:
+        raise AlreadyExistsError(repo.location)
+    except NotInitializedError:
         (path / Repo.repo_dir).mkdir(parents=False, exist_ok=False)
         (path / Repo.repo_dir / Repo.config_file).touch(exist_ok=False)
 
