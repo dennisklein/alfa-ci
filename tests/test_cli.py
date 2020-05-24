@@ -15,7 +15,7 @@ def test_version(capsys):
         with pytest.raises(SystemExit) as rc:
             cli.main()
             captured = capsys.readouterr()
-            assert captured.out.strip() == version.pkg_version
+            assert captured.out.strip() == version.PKG_VERSION
             assert rc.value.code == 0
 
 

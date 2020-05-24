@@ -1,35 +1,37 @@
 # PYTHON_ARGCOMPLETE_OK
+"""Command line interface 'alfa-ci'"""
 
-import argcomplete
 import argparse
+import subprocess
 import sys
+import argcomplete
+
+from alfaci.version import PKG_VERSION
 
 
 class ArgumentParser(argparse.ArgumentParser):
-
+    """Specialized arg parser with custom error handling"""
     def error(self, message):
         self.print_help(sys.stderr)
         self.exit(2, '%s: error: %s\n' % (self.prog, message))
 
 
-def print_shell_setup(args):
+def print_shell_setup(_args):
     """Print the argcomplete bash hook to be eval'ed by the user"""
-    import subprocess
     print(
         subprocess.run(['register-python-argcomplete', 'alfa-ci'],
-                       capture_output=True).stdout.decode('UTF-8'))
+                       capture_output=True,
+                       check=True).stdout.decode('UTF-8'))
 
 
-def print_version(args):
+def print_version(_args):
     """Print the package version defined in the setup.py metadata"""
-    from alfaci.version import pkg_version
-    print(pkg_version)
+    print(PKG_VERSION)
 
 
 def main():
     """Main entry function called from the CLI"""
-    parser = ArgumentParser(
-        description='Manage alfa-ci environments.')
+    parser = ArgumentParser(description='Manage alfa-ci environments.')
     subparsers = parser.add_subparsers(title='COMMANDS')
 
     shell_setup_parser = subparsers.add_parser(
@@ -49,10 +51,11 @@ def main():
 
     if hasattr(args, 'func'):
         args.func(args)
-        exit(0)
+        sys.exit(0)
     else:
         parser.print_help()
-        exit(2)
+        sys.exit(2)
+
 
 if __name__ == '__main__':
     main()
