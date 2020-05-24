@@ -2,6 +2,12 @@
 
 ## install
 
+latest release
+```bash
+pip install --user alfa-ci
+```
+
+for development in git clone:
 ```bash
 pip install --user -e .
 ```
