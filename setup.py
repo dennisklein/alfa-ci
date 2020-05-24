@@ -28,7 +28,7 @@ setup(
     python_requires='>=3.7',
     setup_requires=['wheel'],
     test_requires=['pytest', 'coverage', 'cli-test-helpers'],
-    install_requires=['argcomplete'],
+    install_requires=['argcomplete', 'pyyaml'],
     entry_points={
         'console_scripts': [
             'alfa-ci = alfaci.cli:main',
