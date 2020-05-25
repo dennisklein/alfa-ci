@@ -37,7 +37,7 @@ class Repo:
             raise NotInitializedError()
 
         with (self.location / Repo.config_file).open() as file:
-            yaml.full_load(file)
+            yaml.safe_load(file)
 
         self._environments = []
 
