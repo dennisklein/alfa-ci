@@ -25,7 +25,7 @@ setup(
         'License :: OSI Approved :: '
         'GNU General Public License v3 or later (GPLv3+)',
     ],
-    python_requires='>=3.7',
+    python_requires='>=3.6',
     setup_requires=['wheel'],
     test_requires=['pytest', 'coverage', 'cli-test-helpers'],
     install_requires=['argcomplete', 'pyyaml'],
