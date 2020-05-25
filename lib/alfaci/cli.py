@@ -2,10 +2,11 @@
 """Command line interface 'alfa-ci'"""
 
 import argparse
-import subprocess
+from subprocess import check_call
 import sys
 from pathlib import Path
 import argcomplete
+import shutil
 
 from alfaci.version import PKG_VERSION
 from alfaci.repo import init_repo, Repo
@@ -20,10 +21,10 @@ class ArgumentParser(argparse.ArgumentParser):
 
 def do_shell_setup(_args):
     """Print the argcomplete bash hook to be eval'ed by the user"""
-    print(
-        subprocess.run(['register-python-argcomplete', 'alfa-ci'],
-                       capture_output=True,
-                       check=True).stdout.decode('UTF-8'))
+    for reg in ("register-python-argcomplete3", "register-python-argcomplete"):
+        if shutil.which(reg) is not None:
+            break
+    check_call([reg, 'alfa-ci'])
 
 
 def do_version(_args):
