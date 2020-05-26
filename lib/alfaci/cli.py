@@ -5,8 +5,8 @@ import argparse
 from subprocess import check_call
 import sys
 from pathlib import Path
-import argcomplete
 import shutil
+import argcomplete
 
 from alfaci.version import PKG_VERSION
 from alfaci.repo import init_repo, Repo
