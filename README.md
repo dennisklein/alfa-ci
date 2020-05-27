@@ -1,15 +1,20 @@
-# `alfa-ci` environment manager
+# `alfa-ci` environment manager  ![Test](https://github.com/FairRootGroup/alfa-ci/workflows/Test/badge.svg?event=push) [![codecov](https://codecov.io/gh/FairRootGroup/alfa-ci/branch/master/graph/badge.svg)](https://codecov.io/gh/FairRootGroup/alfa-ci)
 
 ## install
 
 latest release
 ```bash
-pip install --user alfa-ci
+python -m pip install --user alfa-ci
+```
+
+HEAD without git clone
+```bash
+python -m pip install --user git+https://github.com/FairRootGroup/alfa-ci
 ```
 
 for development in git clone:
 ```bash
-pip install --user -e .
+python -m pip install --user -e .
 ```
 
 ## usage
@@ -28,12 +33,18 @@ alfa-ci -h
 
 quick
 ```bash
-pip install --user pytest
-pytest
+python -m pip install --user pytest cli-test-helpers
+python -m pytest -v
+```
+
+with coverage report
+```bash
+python -m pip install --user pytest coverage cli-test-helpers
+python -m coverage run -m pytest && python -m coverage report -m
 ```
 
 exhaustive
 ```bash
-pip install --user tox
-tox
+python -m pip install --user tox
+python -m tox
 ```
