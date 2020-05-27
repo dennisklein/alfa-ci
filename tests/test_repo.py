@@ -1,6 +1,7 @@
 """alfaci.repo test module"""
 
 import pytest
+import sys
 from alfaci.repo import init_repo, Repo, Error
 
 
@@ -41,4 +42,7 @@ def test_location(empty_initialized_repo):
 
 def test_envs(empty_initialized_repo):
     """Test environments getter"""
-    assert Repo(empty_initialized_repo).envs == []
+    if sys.platform.startswith('linux'):
+        assert len(Repo(empty_initialized_repo).envs) == 2
+    else:
+        assert Repo(empty_initialized_repo).envs == []
