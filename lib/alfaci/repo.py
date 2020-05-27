@@ -39,7 +39,7 @@ class Repo:
         with (self.location / Repo.config_file).open() as file:
             yaml.safe_load(file)
 
-        self._environments = []
+        self._envs = []
 
     @property
     def location(self):
@@ -47,9 +47,9 @@ class Repo:
         return self._location
 
     @property
-    def environments(self):
+    def envs(self):
         """getter"""
-        return self._environments
+        return self._envs
 
 
 def init_repo(path):

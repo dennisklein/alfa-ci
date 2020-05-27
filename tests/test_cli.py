@@ -39,21 +39,27 @@ def test_unknown_option():
     assert rc.value.code == 2
 
 
+class MockEnv:
+    """Mock-up for alfaci.env"""
+    def install(self):
+        pass
+
+
 class MockRepo:
     """Mock-up for alfaci.repo.Repo"""
     def __init__(self, path):
         self._location = path / '.alfa-ci'
-        self._environments = ['foo', 'bar']
+        self._envs = [MockEnv(), MockEnv()]
 
     @property
     def location(self):
-        """getter"""
+        """prop"""
         return self._location
 
     @property
-    def environments(self):
-        """getter"""
-        return self._environments
+    def envs(self):
+        """prop"""
+        return self._envs
 
 
 @pytest.fixture
@@ -91,6 +97,6 @@ def test_list(capsys, mock_cwd, mock_repo):
     with ArgvContext(CMD, 'list'), pytest.raises(SystemExit) as rc:
         alfaci.cli.main()
     captured = capsys.readouterr().out
-    expected = "foo\nbar\n"
-    assert captured == expected
+    actual = len(captured.splitlines())
+    assert actual == 2
     assert rc.value.code == 0

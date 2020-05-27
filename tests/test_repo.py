@@ -39,6 +39,6 @@ def test_location(empty_initialized_repo):
                                                      Repo.repo_dir)
 
 
-def test_environments(empty_initialized_repo):
+def test_envs(empty_initialized_repo):
     """Test environments getter"""
-    assert Repo(empty_initialized_repo).environments == []
+    assert Repo(empty_initialized_repo).envs == []
