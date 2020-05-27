@@ -28,6 +28,14 @@ jobs:
         run: python -m coverage run -m pytest -v
       - name: Display coverage report
         run: python -m coverage report -m
+      - name: Generate xml coverage report
+        if: ${{ matrix.os == 'ubuntu-latest' && matrix.python-version == 3.8 }}
+        run: python -m coverage xml
+      - name: Upload coverage xml report to codecov.io
+        if: ${{ matrix.os == 'ubuntu-latest' && matrix.python-version == 3.8 }}
+        uses: codecov/codecov-action@v1.0.7
+        with:
+          fail_ci_if_error: true # optional (default = false)
   lint:
     name: Linter tests
     runs-on: ubuntu-latest
