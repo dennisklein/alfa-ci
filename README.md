@@ -1,5 +1,7 @@
 # `alfa-ci` environment manager  ![Test](https://github.com/FairRootGroup/alfa-ci/workflows/Test/badge.svg?event=push) [![codecov](https://codecov.io/gh/FairRootGroup/alfa-ci/branch/master/graph/badge.svg)](https://codecov.io/gh/FairRootGroup/alfa-ci)
 
+requires Python 3.6+
+
 ## install
 
 latest release
