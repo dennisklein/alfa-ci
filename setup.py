@@ -10,7 +10,7 @@ def read(*paths):
 
 setup(
     name='alfa-ci',
-    version='0.0.1',
+    version='0.1.0',
     license='GPLv3+',
     author='Dennis Klein',
     author_email='d.klein@gsi.de',
