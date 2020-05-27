@@ -45,6 +45,13 @@ def do_list(_args):
         print(env)
 
 
+def do_install(_args):
+    """Install environments"""
+    repo = Repo(Path.cwd())
+    for env in repo.envs:
+        env.install()
+
+
 def main():
     """Main entry function called from the CLI"""
     parser = ArgumentParser(description='Manage alfa-ci environments.')
@@ -69,8 +76,13 @@ def main():
 
     list_parser = subparsers.add_parser('list',
                                         add_help=False,
-                                        help='list installed environments')
+                                        help='list environments')
     list_parser.set_defaults(func=do_list)
+
+    install_parser = subparsers.add_parser('install',
+                                           add_help=False,
+                                           help='install environments')
+    install_parser.set_defaults(func=do_install)
 
     argcomplete.autocomplete(parser)
     args = parser.parse_args()

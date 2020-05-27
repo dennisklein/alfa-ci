@@ -100,3 +100,10 @@ def test_list(capsys, mock_cwd, mock_repo):
     actual = len(captured.splitlines())
     assert actual == 2
     assert rc.value.code == 0
+
+
+def test_install(mock_cwd, mock_repo):
+    """Check return code of install subcmd"""
+    with ArgvContext(CMD, 'install'), pytest.raises(SystemExit) as rc:
+        alfaci.cli.main()
+    assert rc.value.code == 0
