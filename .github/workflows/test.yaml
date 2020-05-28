@@ -25,7 +25,7 @@ jobs:
           python -c 'import sys; print(sys.version)'
           python -c 'import alfaci.version; print(alfaci.version.PKG_VERSION)'
       - name: Run pytest
-        run: python -m pytest
+        run: python -m pytest --color=yes
   coverage:
     name: Test coverage
     runs-on: ubuntu-latest
@@ -42,7 +42,7 @@ jobs:
           python -c 'import sys; print(sys.version)'
           python -c 'import alfaci.version; print(alfaci.version.PKG_VERSION)'
       - name: Run pytest
-        run: python -m coverage run -m pytest -v
+        run: python -m coverage run -m pytest -v --color=yes
       - name: Display coverage report
         run: python -m coverage report -m
       - name: Generate xml coverage report
