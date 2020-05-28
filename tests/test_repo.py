@@ -36,6 +36,6 @@ def test_location(empty_initialized_repo):
 def test_envs(empty_initialized_repo):
     """Test environments getter"""
     if sys.platform.startswith('linux'):
-        assert len(Repo(empty_initialized_repo).envs) == 2
+        assert len(Repo(empty_initialized_repo).envs) == 5
     else:
         assert Repo(empty_initialized_repo).envs == []

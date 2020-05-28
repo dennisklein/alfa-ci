@@ -1,0 +1,4 @@
+[style]
+column_limit = 79
+indent_dictionary_value=true
+allow_split_before_dict_value=false

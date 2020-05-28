@@ -44,6 +44,8 @@ def do_list(_args):
     repo = Repo(Path.cwd())
     for env in repo.envs:
         print(env)
+        print()
+        print(env.definition)
 
 
 def do_install(_args):

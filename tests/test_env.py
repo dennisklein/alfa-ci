@@ -9,4 +9,5 @@ def test_env(mock_env):
 
 def test_fairroot_env(mock_fairroot_env):
     """Test FairRootEnv"""
-    assert mock_fairroot_env.name == 'foo'
+    assert mock_fairroot_env.name == 'fedora31'
+    assert mock_fairroot_env.definition

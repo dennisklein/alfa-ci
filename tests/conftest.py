@@ -12,6 +12,11 @@ class CliMockEnv:
     def install(self):
         """install"""
 
+    @property
+    def definition(self):
+        """prop"""
+        return ''
+
 
 class CliMockRepo:
     """Mock-up for alfaci.repo.Repo"""
@@ -66,4 +71,4 @@ def mock_env(empty_initialized_repo):  # pylint: disable=redefined-outer-name
 def mock_fairroot_env(empty_initialized_repo):
     # pylint: disable=redefined-outer-name
     """Create mocked fairroot env"""
-    return FairRootEnv(empty_initialized_repo, 'foo')
+    return FairRootEnv(empty_initialized_repo, 'fedora31')
