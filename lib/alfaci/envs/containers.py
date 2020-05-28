@@ -1,6 +1,6 @@
 """Linux containers"""
 
-from textwrap import dedent, indent
+from textwrap import indent
 
 _COMMON_PKGS = [
     'autoconf', 'automake', 'bison', 'binutils', 'bzip2', 'ca-certificates',
@@ -9,79 +9,72 @@ _COMMON_PKGS = [
     'wget'
 ]
 
+_COMMON_PKGS_RPM = [
+    'gcc', 'gcc-c++', 'gcc-gfortran', 'glibc-devel', 'python2-devel',
+    'pkgconf', 'procps', 'which', 'xz'
+]
+
+_COMMON_PKGS_DEB = [
+    'build-essential', 'debianutils', 'g++', 'gcc', 'gfortran'
+    'libc6-dev', 'lsb-release', 'python-dev', 'xz-utils'
+]
+
+_INSTALL_YUM = """\
+yum -y update
+yum -y install {packages}
+yum -y clean all
+"""
+
+_INSTALL_APT = """\
+apt-get update
+apt-get -y upgrade
+apt-get -y install {packages}
+apt-get -y clean
+"""
+
+_INSTALL_DNF = """\
+dnf -y update
+dnf -y install {packages}
+dnf -y clean all
+"""
+
+_INSTALL_ZYPPER = """\
+zypper refresh
+zypper update -y
+zypper install -y --no-recommends {packages}
+zypper clean
+"""
+
 CONTAINER_DATA = {
     'centos7': {
-        'bootstrap': 'docker',
         'from': 'centos:7',
-        'packages': _COMMON_PKGS + [
-            'gcc', 'gcc-c++', 'gcc-gfortran', 'glibc-devel', 'python2-devel',
-            'pkgconf', 'procps', 'redhat-lsb-core', 'which', 'xz'
-        ],
-        'install': dedent("""\
-            yum -y update
-            yum -y install {packages}
-            yum -y clean all
-            """)
+        'packages': _COMMON_PKGS + _COMMON_PKGS_RPM + ['redhat-lsb-core'],
+        'install': _INSTALL_YUM
     },
     'debian10': {
-        'bootstrap': 'docker',
         'from': 'debian:10',
-        'packages': _COMMON_PKGS + [
-            'build-essential', 'debianutils', 'g++', 'gcc', 'gfortran'
-            'libc6-dev', 'lsb-release', 'python-dev', 'xz-utils'
-        ],
-        'install': dedent("""\
-            apt-get update
-            apt-get -y upgrade
-            apt-get -y install {packages}
-            apt-get -y clean
-            """)
+        'packages': _COMMON_PKGS + _COMMON_PKGS_DEB,
+        'install': _INSTALL_APT
     },
     'fedora31': {
-        'bootstrap': 'docker',
         'from': 'fedora:31',
-        'packages': _COMMON_PKGS + [
-            'gcc', 'gcc-c++', 'gcc-gfortran', 'glibc-devel', 'python2-devel',
-            'pkgconf', 'procps', 'redhat-lsb-core', 'which', 'xz'
-        ],
-        'install': dedent("""\
-            dnf -y update
-            dnf -y install {packages}
-            dnf -y clean all
-            """)
+        'packages': _COMMON_PKGS + _COMMON_PKGS_RPM + ['redhat-lsb-core'],
+        'install': _INSTALL_DNF
     },
     'opensuse15.2': {
-        'bootstrap': 'docker',
         'from': 'opensuse/leap:15.2',
-        'packages': _COMMON_PKGS + [
-            'gcc', 'gcc-c++', 'gcc-gfortran', 'glibc-devel', 'python2-devel',
-            'pkgconf', 'procps', 'lsb-release', 'which', 'xz'
-        ],
-        'install': dedent("""\
-            zypper refresh
-            zypper update -y
-            zypper install -y --no-recommends {packages}
-            zypper clean
-            """)
+        'packages': _COMMON_PKGS + _COMMON_PKGS_RPM + ['lsb-release'],
+        'install': _INSTALL_ZYPPER
     },
     'ubuntu18.04': {
-        'bootstrap': 'docker',
         'from': 'ubuntu:18.04',
-        'packages': _COMMON_PKGS + [
-            'build-essential', 'debianutils', 'g++', 'gcc', 'gfortran'
-            'libc6-dev', 'lsb-release', 'python-dev', 'xz-utils'
-        ],
-        'install': dedent("""\
-            apt-get update
-            apt-get -y upgrade
-            apt-get -y install {packages}
-            apt-get -y clean
-            """)
+        'packages': _COMMON_PKGS + _COMMON_PKGS_DEB,
+        'install': _INSTALL_APT
     }
 }
 
 CONTAINER_DEF = """\
-Bootstrap: {bootstrap}
+Bootstrap: docker
 From: {from}
 
 %post
