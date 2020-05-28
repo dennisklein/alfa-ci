@@ -2,7 +2,7 @@
 
 import sys
 from alfaci.env import Env
-from alfaci.envs.containers import get_singularity_definition
+from alfaci.containers import get_singularity_definition
 
 
 class FairRootEnv(Env):
