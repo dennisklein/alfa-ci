@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   unit:
-    name: Unit tests
+    name: Unit
     strategy:
       matrix:
         os: [ubuntu-latest]
@@ -27,7 +27,7 @@ jobs:
       - name: Run pytest
         run: python -m pytest --color=yes
   coverage:
-    name: Test coverage
+    name: Coverage
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -52,7 +52,7 @@ jobs:
         with:
           fail_ci_if_error: true # optional (default = false)
   lint:
-    name: Linter tests
+    name: Linter
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -71,7 +71,7 @@ jobs:
       - name: Run flake8
         run: python -m flake8
   format:
-    name: Formatter tests
+    name: Formatter
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
