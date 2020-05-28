@@ -1,10 +1,9 @@
 """repo module"""
 
 from pathlib import Path
-import sys
 import yaml
 
-from alfaci.envs.fairroot import FairRootEnv
+from alfaci.envs.fairroot import get_envs as fairroot_envs
 
 
 class Error(Exception):
@@ -42,13 +41,7 @@ class Repo:
         with (self.location / Repo.config_file).open() as file:
             yaml.safe_load(file)
 
-        if sys.platform.startswith('linux'):  # pragma: no cover
-            self._envs = [
-                FairRootEnv(self, 'debian10'),
-                FairRootEnv(self, 'fedora31')
-            ]
-        else:  # pragma: no cover
-            self._envs = []
+        self._envs = fairroot_envs(self)
 
     @property
     def location(self):
