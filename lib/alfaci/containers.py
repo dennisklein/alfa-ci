@@ -1,5 +1,3 @@
-"""Linux containers"""
-
 from textwrap import indent
 
 _COMMON_PKGS = [

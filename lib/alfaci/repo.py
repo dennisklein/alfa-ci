@@ -1,5 +1,3 @@
-"""repo module"""
-
 from pathlib import Path
 import yaml
 
@@ -11,13 +9,11 @@ class Error(Exception):
 
 
 class NotInitializedError(Error):
-    """Repo is not initialized"""
     def __init__(self):
         super().__init__('Repo is not initialized')
 
 
 class AlreadyExistsError(Error):
-    """Repo already exists"""
     def __init__(self, location):
         super().__init__('Repository already exists in %s' % location)
 
@@ -45,12 +41,10 @@ class Repo:
 
     @property
     def location(self):
-        """getter"""
         return self._location
 
     @property
     def envs(self):
-        """getter"""
         return self._envs
 
 

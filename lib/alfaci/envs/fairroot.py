@@ -1,5 +1,3 @@
-"""FairRoot environments"""
-
 import sys
 from alfaci.env import Env
 from alfaci.containers import get_singularity_definition
@@ -8,23 +6,20 @@ from alfaci.containers import get_singularity_definition
 class FairRootEnv(Env):
     """FairRoot environment"""
     def __init__(self, repo, name):
-        """ctor"""
         self._name = name
         self._definition = get_singularity_definition(name)
         super().__init__(repo)
 
     @property
     def definition(self):
-        """prop"""
         return self._definition
 
     @property
     def name(self):
-        """prop"""
         return self._name
 
     def install(self):
-        """install"""
+        pass
 
     def __repr__(self):
         return 'fairroot %s (%s)' % (self.name, 'installed'
