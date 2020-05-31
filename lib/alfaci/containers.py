@@ -1,4 +1,7 @@
+import logging
 from textwrap import indent
+
+log = logging.getLogger(__name__)
 
 _COMMON_PKGS = [
     'autoconf', 'automake', 'bison', 'binutils', 'bzip2', 'ca-certificates',
@@ -84,5 +87,8 @@ def get_singularity_definition(name):
     """Generate a singularity container definition"""
     data = CONTAINER_DATA[name]
     data['packages'] = ' '.join(data['packages'])
-    data['install'] = indent(data['install'].format(**data), '    ')
-    return CONTAINER_DEF.format(**data)
+    data['install'] = indent(data['install'].format(**data), '    ').rstrip()
+    sdef = CONTAINER_DEF.format(**data)
+    log.debug(">>> Generated singularity definition for '%s':\n%s\n<<<", name,
+              sdef.rstrip())
+    return sdef

@@ -62,7 +62,7 @@ def test_list(capsys):
         alfaci.cli.main()
     captured = capsys.readouterr().out
     actual = len(captured.splitlines())
-    assert actual == 6
+    assert actual == 2
     assert rc.value.code == 0
 
 

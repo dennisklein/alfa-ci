@@ -46,7 +46,7 @@ def do_list(_args):
     """Print the list of installed environments"""
     repo = Repo(Path.cwd())
     for env in repo.envs:
-        print('%s\n\n%s' % (env, env.definition))
+        print(env)
 
 
 def do_install(_args):
