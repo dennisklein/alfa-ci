@@ -1,3 +1,4 @@
+import logging
 import pytest
 from cli_test_helpers import ArgvContext
 import alfaci
@@ -33,11 +34,22 @@ def test_unknown_option():
     assert rc.value.code == 2
 
 
+def test_log_option():
+    with ArgvContext(CMD, '--log', 'debug'), pytest.raises(SystemExit) as rc:
+        alfaci.cli.main()
+    assert rc.value.code == 2
+    with ArgvContext(CMD, '--log', 'foobar'), pytest.raises(ValueError) as rc:
+        alfaci.cli.main()
+
+
 @pytest.mark.usefixtures('mock_init_repo')
-def test_init(capsys, mock_cwd):
+def test_init(caplog, mock_cwd):
+    """Check return value and log message"""
+    caplog.set_level(logging.INFO, logger='alfaci.cli')
     with ArgvContext(CMD, 'init'), pytest.raises(SystemExit) as rc:
         alfaci.cli.main()
-    captured = capsys.readouterr().out.strip()
+    assert len(caplog.records) == 1
+    captured = caplog.records[0].message.strip()
     loc = mock_cwd / '.alfa-ci'
     expected = 'Initialized empty alfa-ci repository in %s' % loc
     assert captured == expected

@@ -2,6 +2,7 @@
 """Command line interface 'alfa-ci'"""
 
 import argparse
+import logging
 from subprocess import check_call
 import sys
 from pathlib import Path
@@ -10,6 +11,8 @@ import argcomplete
 
 from alfaci.version import PKG_VERSION
 from alfaci.repo import init_repo, Repo
+
+log = logging.getLogger(__name__)
 
 
 class ArgumentParser(argparse.ArgumentParser):
@@ -36,16 +39,14 @@ def do_version(_args):
 def do_init(_args):
     """Initialize the current working directory as environment repo"""
     repo = init_repo(Path.cwd())
-    print('Initialized empty alfa-ci repository in %s' % repo.location)
+    log.info('Initialized empty alfa-ci repository in %s', repo.location)
 
 
 def do_list(_args):
     """Print the list of installed environments"""
     repo = Repo(Path.cwd())
     for env in repo.envs:
-        print(env)
-        print()
-        print(env.definition)
+        print('%s\n\n%s' % (env, env.definition))
 
 
 def do_install(_args):
@@ -58,6 +59,11 @@ def do_install(_args):
 def main():
     """Main entry function called from the CLI"""
     parser = ArgumentParser(description='Manage alfa-ci environments.')
+    parser.add_argument('-l',
+                        '--log',
+                        dest='level',
+                        default='WARNING',
+                        help='set log level (fatal, warn, info, debug)')
     subparsers = parser.add_subparsers(title='COMMANDS')
 
     shell_setup_parser = subparsers.add_parser(
@@ -89,6 +95,11 @@ def main():
 
     argcomplete.autocomplete(parser)
     args = parser.parse_args()
+
+    numeric_level = getattr(logging, args.level.upper(), None)
+    if not isinstance(numeric_level, int):
+        raise ValueError('Invalid log level: %s' % args.level)
+    logging.basicConfig(level=numeric_level, format='%(message)s')
 
     if hasattr(args, 'func'):
         args.func(args)
